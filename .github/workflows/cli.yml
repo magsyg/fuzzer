@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+name: CI.2
+
+on: 
+  push:
+    paths:
+      - '2.c'
+      - 'fuzzer_test.c'
+      - '.github/workflows/*'
+
+jobs:
+  fuzzy_test:
+    name: Fuzzy testing
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install clang
+      run: |
+        sudo apt-get update
+        sudo apt install clang
+    - name: Run tests
+      run: |
+        clang fuzzer_test.c -fsanitize=address,fuzzer -o fuzzer
+        ./fuzzer -max_total_time=5 -runs=250000 2> error
+        cat error
+  
+  unit_test:
+    name: Unit testing
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: |
+        g++ tests.c -o tests
+        ./tests
