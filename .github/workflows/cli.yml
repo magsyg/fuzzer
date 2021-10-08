@@ -30,5 +30,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: |
-        g++ tests.c -o tests
+        g++ tests/tests.c -o tests
         ./tests
