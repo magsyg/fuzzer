@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '2.c'
+      - 'utility.h'
       - 'tests/utility_fuzzer_test.c'
       - '.github/workflows/*'
 
