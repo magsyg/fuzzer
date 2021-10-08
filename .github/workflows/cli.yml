@@ -3,7 +3,6 @@ name: CI.2
 on: 
   push:
     paths:
-      - '2.c'
       - 'utility.h'
       - 'tests/utility_fuzzer_test.c'
       - '.github/workflows/*'
@@ -24,12 +23,3 @@ jobs:
         ./fuzzer -max_total_time=5 -runs=250000 2> error
         cat error
   
-  unit_test:
-    name: Unit testing
-    runs-on: ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run tests
-      run: |
-        g++ tests/utility_test.c -o tests
-        ./tests
